@@ -15,7 +15,6 @@ public class ProductServiceImpl implements ProductService {
     @Autowired
     ProductDao productDao;
 
-
     @Override
     public ProductEntity selectById(String id) {
         return productDao.selectById(Integer.valueOf(id));

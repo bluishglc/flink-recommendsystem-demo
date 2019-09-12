@@ -17,29 +17,29 @@ import static org.apache.hadoop.hbase.TestChoreService.log;
 @Service
 public class KafkaServiceImpl implements KafkaService {
 
-	private Logger log = LoggerFactory.getLogger(KafkaService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(KafkaServiceImpl.class);
 
-	@Autowired
-	private KafkaTemplate<String, String> kafkaTemplate;
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
     private String TOPIC = "con";
 
     @Override
     public void send(String key, String value) {
-		ListenableFuture<SendResult<String, String>> send = kafkaTemplate.send(TOPIC, key, value);
+        ListenableFuture<SendResult<String, String>> send = kafkaTemplate.send(TOPIC, key, value);
 
-		send.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
+        send.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
 
-			@Override
-			public void onFailure(Throwable throwable) {
-				log.error("kafka send msg err, ex = {}, topic = {}, data = {}", throwable, TOPIC, value);
-			}
+            @Override
+            public void onFailure(Throwable throwable) {
+                LOGGER.error("kafka send msg err, ex = {}, topic = {}, data = {}", throwable, TOPIC, value);
+            }
 
-			@Override
-			public void onSuccess(SendResult<String, String> integerStringSendResult) {
-				log.info("kafka send msg success, topic = {}, data = {}", TOPIC, value);
-			}
-		});
+            @Override
+            public void onSuccess(SendResult<String, String> integerStringSendResult) {
+                LOGGER.info("kafka send msg success, topic = {}, data = {}", TOPIC, value);
+            }
+        });
     }
 
     @Override

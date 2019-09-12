@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @Service("recommendService")
 public class RecommendServiceImpl implements RecommendService {
 
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(RecommendServiceImpl.class);
 
     @Autowired
     UserScoreService userScoreService;
@@ -144,7 +144,7 @@ public class RecommendServiceImpl implements RecommendService {
                 ps = HbaseClient.getRow(table, s);
                 Collections.sort(ps, ((o1, o2) -> -(new BigDecimal(o1.getValue().toString()).compareTo(new BigDecimal(o2.getValue().toString())))));
             } catch (Exception e) {
-                logger.warn("Hbase中没有产品【{}】记录", s);
+                LOGGER.warn("Hbase中没有产品【{}】记录", s);
             }
             if (CollectionUtils.isEmpty(ps)) {
                 continue;
@@ -225,7 +225,7 @@ public class RecommendServiceImpl implements RecommendService {
             // 尽量多的拿产品列表
             topList.addAll(productService.selectInitPro(100));
             topList = topList.stream().distinct().collect(Collectors.toList());
-            logger.info("top: {}", topList);
+            LOGGER.info("top: {}", topList);
         }
         return topList;
     }
