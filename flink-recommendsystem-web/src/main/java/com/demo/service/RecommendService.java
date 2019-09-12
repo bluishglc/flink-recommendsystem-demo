@@ -6,33 +6,36 @@ import com.demo.dto.ProductDto;
 import java.io.IOException;
 import java.util.List;
 
-public interface RecommandService {
+public interface RecommendService {
 
 
     /**
      * 弃用
-     *
+     * <p>
      * 基于用户特征的热度表和产品标签关联表 -> 联合推荐
+     *
      * @param userId
      * @return
      * @throws IOException
      */
-    List<ProductScoreEntity> userRecommand(String userId) throws IOException;
+    List<ProductScoreEntity> userRecommend(String userId) throws IOException;
 
     /**
      * 热度榜数据
      */
-    List<ProductDto> recommandByHotList();
+    List<ProductDto> recommendByHotList();
 
     /**
      * 协同过滤推荐结果
+     *
      * @return
      */
-    List<ProductDto> recomandByItemCfCoeff() throws IOException;
+    List<ProductDto> recommendByItemCfCoeff() throws IOException;
 
     /**
      * 产品画像推荐结果
+     *
      * @return
      */
-    List<ProductDto> recomandByProductCoeff() throws IOException;
+    List<ProductDto> recommendByProductCoeff() throws IOException;
 }

@@ -4,27 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.demo</groupId>
+    <parent>
+        <groupId>com.demo</groupId>
+        <artifactId>flink-recommendsystem-demo</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
     <artifactId>flink-recommendsystem-hbase</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <encoding>UTF-8</encoding>
-        <java.version>1.8</java.version>
-        <scala.binary.version>2.12</scala.binary.version>
-        <flink.version>1.9.0</flink.version>
-        <flink-connector-redis.version>1.1.5</flink-connector-redis.version>
-        <hbase.version>1.4.10</hbase.version>
-        <jedis.version>3.1.0</jedis.version>
-        <mysql-connector-java.version>8.0.17</mysql-connector-java.version>
-        <slf4j.version>1.7.28</slf4j.version>
-        <maven.compiler.source.version>1.8</maven.compiler.source.version>
-        <maven.compiler.target.version>1.8</maven.compiler.target.version>
-        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
     </properties>
 
     <dependencies>
-
         <!-- flink dependencies -->
         <dependency>
             <groupId>org.apache.flink</groupId>
@@ -57,18 +50,6 @@
             <groupId>org.apache.flink</groupId>
             <artifactId>flink-connector-redis_2.11</artifactId>
             <version>${flink-connector-redis.version}</version>
-        </dependency>
-
-        <!-- hbase dependencies -->
-        <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-client</artifactId>
-            <version>${hbase.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.hbase</groupId>
-            <artifactId>hbase-server</artifactId>
-            <version>${hbase.version}</version>
         </dependency>
 
         <dependency>
