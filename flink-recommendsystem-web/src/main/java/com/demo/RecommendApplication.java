@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @MapperScan("com.demo.dao")
-public class RecommandApplication {
+public class RecommendApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(RecommandApplication.class);
+        SpringApplication.run(RecommendApplication.class);
     }
 }
