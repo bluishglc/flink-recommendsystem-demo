@@ -34,8 +34,8 @@ public class HbaseClient {
         }else{
         System.out.println("Start create table");
         HTableDescriptor tableDescriptor = new HTableDescriptor(tablename);
-        for (String columnFamliy : columnFamilies) {
-            HTableDescriptor column = tableDescriptor.addFamily(new HColumnDescriptor(columnFamliy));
+        for (String columnFamily : columnFamilies) {
+            HTableDescriptor column = tableDescriptor.addFamily(new HColumnDescriptor(columnFamily));
         }
         admin.createTable(tableDescriptor);
         System.out.println("Create Table success");
@@ -46,17 +46,17 @@ public class HbaseClient {
      * 获取一列获取一行数据
      * @param tableName
      * @param rowKey
-     * @param famliyName
+     * @param familyName
      * @param column
      * @return
      * @throws IOException
      */
-    public static String getData(String tableName, String rowKey, String famliyName, String column) throws IOException {
+    public static String getData(String tableName, String rowKey, String familyName, String column) throws IOException {
         Table table = conn.getTable(TableName.valueOf(tableName));
         byte[] row = Bytes.toBytes(rowKey);
         Get get = new Get(row);
         Result result = table.get(get);
-        byte[] resultValue = result.getValue(famliyName.getBytes(), column.getBytes());
+        byte[] resultValue = result.getValue(familyName.getBytes(), column.getBytes());
         if (null == resultValue){
             return null;
         }
@@ -112,17 +112,17 @@ public class HbaseClient {
      * 将该单元格加1
      * @param tablename 表名
      * @param rowkey 行号
-     * @param famliyname 列族名
+     * @param familyname 列族名
      * @param column 列名
      * @throws Exception
      */
-    public static void increamColumn(String tablename, String rowkey, String famliyname,String column) throws Exception {
-        String val = getData(tablename, rowkey, famliyname, column);
+    public static void increamColumn(String tablename, String rowkey, String familyname,String column) throws Exception {
+        String val = getData(tablename, rowkey, familyname, column);
         int res = 1;
         if (val != null) {
             res = Integer.valueOf(val) + 1;
         }
-        putData(tablename, rowkey, famliyname, column, String.valueOf(res));
+        putData(tablename, rowkey, familyname, column, String.valueOf(res));
     }
 
     public static void main(String[] args) throws IOException {

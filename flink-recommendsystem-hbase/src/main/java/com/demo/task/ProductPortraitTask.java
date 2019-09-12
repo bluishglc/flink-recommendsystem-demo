@@ -14,7 +14,7 @@ import java.util.Properties;
  *
  * @author XINZE
  */
-public class ProductProtaritTask {
+public class ProductPortraitTask {
 
     public static void main(String[] args) throws Exception {
 

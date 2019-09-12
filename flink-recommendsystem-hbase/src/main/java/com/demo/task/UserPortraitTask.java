@@ -20,7 +20,7 @@ public class UserPortraitTask {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         Properties properties = Property.getKafkaProperties("userPortrait");
-        DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<String>("con", new SimpleStringSchema(), properties));
+        DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<>("con", new SimpleStringSchema(), properties));
         dataStream.map(new UserPortraitMapFunction());
         env.execute("User Portrait");
     }

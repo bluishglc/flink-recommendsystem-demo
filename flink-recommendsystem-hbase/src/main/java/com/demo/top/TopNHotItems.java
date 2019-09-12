@@ -49,12 +49,7 @@ public class TopNHotItems extends KeyedProcessFunction<Tuple, TopProductEntity, 
         // 提前清除状态中的数据，释放空间
         itemState.clear();
         // 按照点击量从大到小排序
-        allItems.sort(new Comparator<TopProductEntity>() {
-            @Override
-            public int compare(TopProductEntity o1, TopProductEntity o2) {
-                return (int) (o2.getActionTimes() - o1.getActionTimes());
-            }
-        });
+        allItems.sort((o1, o2) -> o2.getActionTimes() - o1.getActionTimes());
         List<String> ret = new ArrayList<>();
         allItems.forEach(i-> ret.add(String.valueOf(i.getProductId())));
         out.collect(ret);

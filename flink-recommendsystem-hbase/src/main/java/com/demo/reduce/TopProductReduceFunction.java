@@ -6,7 +6,7 @@ import org.apache.flink.api.common.functions.ReduceFunction;
 /**
  * @author XINZE
  */
-public class TopPruductReduceFunction implements ReduceFunction<TopProductEntity> {
+public class TopProductReduceFunction implements ReduceFunction<TopProductEntity> {
     @Override
     public TopProductEntity reduce(TopProductEntity t1, TopProductEntity t2) throws Exception {
 

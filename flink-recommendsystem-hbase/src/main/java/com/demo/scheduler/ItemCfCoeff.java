@@ -10,9 +10,10 @@ import java.util.Map;
 /**
  * 基于协同过滤的产品相关度计算
  * * 策略1 ：协同过滤
- *      *           abs( i ∩ j)
- *      *      w = ——————————————
- *      *           sqrt(i || j)
+ * *           abs( i ∩ j)
+ * *      w = ——————————————
+ * *           sqrt(i || j)
+ *
  * @author XINZE
  */
 public class ItemCfCoeff {
@@ -23,17 +24,18 @@ public class ItemCfCoeff {
      * @param id     产品id
      * @param others 其他产品的id
      */
-    public void getSingelItemCfCoeff(String id, List<String> others) throws Exception {
+    public void getSingleItemCfCoeff(String id, List<String> others) throws Exception {
 
         for (String other : others) {
-        	if(id.equals(other)) continue;
+            if (id.equals(other)) continue;
             Double score = twoItemCfCoeff(id, other);
-            HbaseClient.putData("px",id, "p",other,score.toString());
+            HbaseClient.putData("px", id, "p", other, score.toString());
         }
     }
 
     /**
      * 计算两个产品之间的评分
+     *
      * @param id
      * @param other
      * @return
@@ -55,12 +57,9 @@ public class ItemCfCoeff {
                 }
             }
         }
-        if (total == 0){
+        if (total == 0) {
             return 0.0;
         }
-        return sum/total;
-
+        return sum / total;
     }
-
-
 }

@@ -13,9 +13,10 @@ import java.util.PriorityQueue;
  * @author XINZE
  */
 public class TopNFunction extends
-        ProcessAllWindowFunction<TopProductEntity, RankProductEntity,TimeWindow>{
+        ProcessAllWindowFunction<TopProductEntity, RankProductEntity, TimeWindow> {
 
     private int topSize = 10;
+
     public TopNFunction(int topSize) {
         this.topSize = topSize;
     }
@@ -23,14 +24,14 @@ public class TopNFunction extends
     @Override
     public void process(Context context, Iterable<TopProductEntity> iterable, Collector<RankProductEntity> collector) throws Exception {
         PriorityQueue<TopProductEntity> res = new PriorityQueue<>(this.topSize, idComparator);
-        for (TopProductEntity topProductEntity:
+        for (TopProductEntity topProductEntity :
                 iterable) {
             res.add(topProductEntity);
         }
         int i = 0;
-        while (!res.isEmpty()){
+        while (!res.isEmpty()) {
             TopProductEntity poll = res.poll();
-            System.out.println(poll.getProductId()+" :"+poll.getActionTimes());
+            System.out.println(poll.getProductId() + " :" + poll.getActionTimes());
             RankProductEntity rankProductEntity = new RankProductEntity();
             rankProductEntity.setId(String.valueOf(i++));
             rankProductEntity.setProductId(String.valueOf(poll.getProductId()));
@@ -39,12 +40,5 @@ public class TopNFunction extends
     }
 
 
-    private static Comparator<TopProductEntity> idComparator = new Comparator<TopProductEntity>(){
-
-        @Override
-        public int compare(TopProductEntity c1, TopProductEntity c2) {
-            return c1.getProductId() - c2.getProductId();
-        }
-    };
-
+    private static Comparator<TopProductEntity> idComparator = (c1, c2) -> c1.getProductId() - c2.getProductId();
 }
