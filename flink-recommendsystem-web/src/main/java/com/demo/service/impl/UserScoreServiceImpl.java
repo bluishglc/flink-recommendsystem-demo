@@ -33,12 +33,12 @@ public class UserScoreServiceImpl implements UserScoreService {
     public UserScoreEntity calUserScore(String userId) throws IOException {
 
         Double[] colors = calColor(userId);
-        Double[] countrys = calCountry(userId);
+        Double[] countries = calCountry(userId);
         Double[] styles = calStyle(userId);
         UserScoreEntity userScoreEntity = new UserScoreEntity();
         userScoreEntity.setUserId(userId);
         userScoreEntity.setColor(colors);
-        userScoreEntity.setCountry(countrys);
+        userScoreEntity.setCountry(countries);
         userScoreEntity.setStyle(styles);
         return userScoreEntity;
 

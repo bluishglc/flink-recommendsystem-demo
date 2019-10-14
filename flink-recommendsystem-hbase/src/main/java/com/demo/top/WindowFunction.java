@@ -7,17 +7,16 @@ import org.apache.flink.util.Collector;
 
 import java.util.Date;
 
-public class WindowFunction extends
-        ProcessAllWindowFunction<TopProductEntity, TopProductEntity, TimeWindow> {
+public class WindowFunction extends ProcessAllWindowFunction<TopProductEntity, TopProductEntity, TimeWindow> {
+
     @Override
     public void process(Context context, Iterable<TopProductEntity> iterable, Collector<TopProductEntity> collector) throws Exception {
 
         String now = new Date().toString();
 
-        for (TopProductEntity topProductEntity: iterable) {
+        for (TopProductEntity topProductEntity : iterable) {
             topProductEntity.setRankName(now);
             collector.collect(topProductEntity);
         }
-
     }
 }

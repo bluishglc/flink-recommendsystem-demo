@@ -7,9 +7,7 @@ import com.demo.domain.ProductPortraitEntity;
 import com.demo.util.Constants;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 基于产品标签的产品相关度计算

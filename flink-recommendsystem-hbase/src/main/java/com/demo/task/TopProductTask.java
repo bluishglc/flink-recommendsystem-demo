@@ -19,7 +19,6 @@ import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
 import org.apache.flink.streaming.connectors.redis.RedisSink;
 import org.apache.flink.streaming.connectors.redis.common.config.FlinkJedisPoolConfig;
-import org.apache.flink.util.Collector;
 
 import java.util.List;
 import java.util.Properties;
@@ -34,31 +33,30 @@ public class TopProductTask {
     private static final int topSize = 5;
 
     public static void main(String[] args) throws Exception {
-
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
         // 开启EventTime
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
-		FlinkJedisPoolConfig conf = new FlinkJedisPoolConfig.Builder()
-				.setHost(Property.getStrValue("redis.host"))
+        FlinkJedisPoolConfig conf = new FlinkJedisPoolConfig.Builder()
+                .setHost(Property.getStrValue("redis.host"))
 //				.setPort(Property.getIntValue("redis.port"))
 //				.setDatabase(Property.getIntValue("redis.db"))
-				.build();
+                .build();
 
         Properties properties = Property.getKafkaProperties("topProuct");
         DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<String>("con", new SimpleStringSchema(), properties));
 
         DataStream<TopProductEntity> topProduct = dataStream.map(new TopProductMapFunction()).
                 // 抽取时间戳做watermark 以 秒 为单位
-                assignTimestampsAndWatermarks(new AscendingTimestampExtractor<LogEntity>() {
+                        assignTimestampsAndWatermarks(new AscendingTimestampExtractor<LogEntity>() {
                     @Override
                     public long extractAscendingTimestamp(LogEntity logEntity) {
                         return logEntity.getTime() * 1000;
                     }
                 })
                 // 按照productId 按滑动窗口
-                .keyBy("productId").timeWindow(Time.seconds(60),Time.seconds(5))
+                .keyBy("productId").timeWindow(Time.seconds(60), Time.seconds(5))
                 .aggregate(new CountAgg(), new WindowResultFunction())
                 .keyBy("windowEnd")
                 .process(new TopNHotItems(topSize)).flatMap((FlatMapFunction<List<String>, TopProductEntity>) (strings, collector) -> {
@@ -73,7 +71,7 @@ public class TopProductTask {
                     }
 
                 });
-        topProduct.addSink(new RedisSink<>(conf,new TopNRedisSink()));
+        topProduct.addSink(new RedisSink<>(conf, new TopNRedisSink()));
 
         env.execute("Top N ");
     }

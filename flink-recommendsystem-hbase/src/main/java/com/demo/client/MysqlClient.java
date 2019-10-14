@@ -10,6 +10,7 @@ public class MysqlClient {
     private static String NAME = Property.getStrValue("mysql.name");
     private static String PASS = Property.getStrValue("mysql.pass");
     private static Statement stmt;
+
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -24,26 +25,27 @@ public class MysqlClient {
 
     /**
      * 根据Id筛选产品
+     *
      * @param id
      * @return
      * @throws SQLException
      */
     public static ResultSet selectById(int id) throws SQLException {
-        String sql = String.format("select  * from product where product_id = %s",id);
+        String sql = String.format("select  * from product where product_id = %s", id);
         return stmt.executeQuery(sql);
     }
 
 
-    public static ResultSet selectUserById(int id) throws SQLException{
-        String sql = String.format("select  * from user where user_id = %s",id);
+    public static ResultSet selectUserById(int id) throws SQLException {
+        String sql = String.format("select  * from user where user_id = %s", id);
         return stmt.executeQuery(sql);
     }
 
-	public static void main(String[] args) throws SQLException {
-		ResultSet resultSet = MysqlClient.selectById(1);
-		while (resultSet.next()) {
-			System.out.println(resultSet.getString(2));
-		}
-	}
+    public static void main(String[] args) throws SQLException {
+        ResultSet resultSet = MysqlClient.selectById(1);
+        while (resultSet.next()) {
+            System.out.println(resultSet.getString(2));
+        }
+    }
 
 }

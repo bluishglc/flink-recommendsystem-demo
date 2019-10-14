@@ -3,11 +3,11 @@ package com.demo.map;
 
 import com.demo.client.HbaseClient;
 import com.demo.domain.LogEntity;
-import org.apache.flink.api.common.time.Time;
 import org.apache.flink.api.common.functions.RichMapFunction;
 import org.apache.flink.api.common.state.StateTtlConfig;
 import org.apache.flink.api.common.state.ValueState;
 import org.apache.flink.api.common.state.ValueStateDescriptor;
+import org.apache.flink.api.common.time.Time;
 import org.apache.flink.configuration.Configuration;
 
 import java.io.Serializable;
@@ -40,17 +40,17 @@ public class UserHistoryWithInterestMapFunction extends RichMapFunction<LogEntit
         if (actionLastTime == null) {
             actionLastTime = actionThisTime;
             saveToHBase(logEntity, 1);
-        }else{
+        } else {
             times = getTimesByRule(actionLastTime, actionThisTime);
         }
         saveToHBase(logEntity, times);
 
         // 如果用户的操作为3(购物),则清除这个key的state
-        if (actionThisTime.getType().equals("3")){
+        if (actionThisTime.getType().equals("3")) {
             state.clear();
         }
         return null;
-}
+    }
 
     private int getTimesByRule(Action actionLastTime, Action actionThisTime) {
         // 动作主要有3种类型
@@ -61,17 +61,17 @@ public class UserHistoryWithInterestMapFunction extends RichMapFunction<LogEntit
         int t2 = Integer.parseInt(actionThisTime.getTime());
         int pluse = 1;
         // 如果动作连续发生且时间很短(小于100秒内完成动作), 则标注为用户对此产品兴趣度很高
-        if (a2 > a1 && (t2 - t1) < 100_000L){
+        if (a2 > a1 && (t2 - t1) < 100_000L) {
             pluse *= a2 - a1;
         }
         return pluse;
     }
 
     private void saveToHBase(LogEntity log, int times) throws Exception {
-        if (log != null){
+        if (log != null) {
             for (int i = 0; i < times; i++) {
 
-            HbaseClient.increamColumn("u_interest",String.valueOf(log.getUserId()),"p",String.valueOf(log.getProductId()));
+                HbaseClient.increamColumn("u_interest", String.valueOf(log.getUserId()), "p", String.valueOf(log.getProductId()));
             }
 
         }
@@ -83,8 +83,7 @@ public class UserHistoryWithInterestMapFunction extends RichMapFunction<LogEntit
 /**
  * 动作类 记录动作类型和动作发生时间(Event Time)
  */
-class Action implements Serializable
-{
+class Action implements Serializable {
 
     private String type;
     private String time;

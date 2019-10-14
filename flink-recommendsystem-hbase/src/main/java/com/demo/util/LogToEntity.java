@@ -7,7 +7,7 @@ import com.demo.domain.LogEntity;
  */
 public class LogToEntity {
 
-    public static LogEntity getLog(String s){
+    public static LogEntity getLog(String s) {
         System.out.println(s);
         String[] values = s.split(",");
         if (values.length < 2) {

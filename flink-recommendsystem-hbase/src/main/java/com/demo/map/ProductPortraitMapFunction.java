@@ -17,13 +17,13 @@ public class ProductPortraitMapFunction implements MapFunction<String, String> {
     public String map(String s) throws Exception {
         LogEntity log = LogToEntity.getLog(s);
         ResultSet rst = MysqlClient.selectUserById(log.getUserId());
-        if (rst != null){
-            while (rst.next()){
+        if (rst != null) {
+            while (rst.next()) {
                 String productId = String.valueOf(log.getProductId());
                 String sex = rst.getString("sex");
-                HbaseClient.increamColumn("prod",productId,"sex",sex);
+                HbaseClient.increamColumn("prod", productId, "sex", sex);
                 String age = rst.getString("age");
-                HbaseClient.increamColumn("prod",productId,"age", AgeUtil.getAgeType(age));
+                HbaseClient.increamColumn("prod", productId, "age", AgeUtil.getAgeType(age));
             }
         }
         return null;

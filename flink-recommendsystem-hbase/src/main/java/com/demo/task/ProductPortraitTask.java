@@ -21,9 +21,8 @@ public class ProductPortraitTask {
         StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
 
         Properties properties = Property.getKafkaProperties("ProductPortrait");
-        DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<String>("con", new SimpleStringSchema(), properties));
+        DataStreamSource<String> dataStream = env.addSource(new FlinkKafkaConsumer<>("con", new SimpleStringSchema(), properties));
         dataStream.map(new ProductPortraitMapFunction());
         env.execute("Product Portrait");
-
     }
 }

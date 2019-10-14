@@ -9,10 +9,9 @@ import org.apache.flink.streaming.api.functions.KeyedProcessFunction;
 import org.apache.flink.util.Collector;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
-public class TopNHotItems extends KeyedProcessFunction<Tuple, TopProductEntity, List<String>>  {
+public class TopNHotItems extends KeyedProcessFunction<Tuple, TopProductEntity, List<String>> {
 
     private final int topSize;
 
@@ -51,7 +50,7 @@ public class TopNHotItems extends KeyedProcessFunction<Tuple, TopProductEntity, 
         // 按照点击量从大到小排序
         allItems.sort((o1, o2) -> o2.getActionTimes() - o1.getActionTimes());
         List<String> ret = new ArrayList<>();
-        allItems.forEach(i-> ret.add(String.valueOf(i.getProductId())));
+        allItems.forEach(i -> ret.add(String.valueOf(i.getProductId())));
         out.collect(ret);
     }
 }
