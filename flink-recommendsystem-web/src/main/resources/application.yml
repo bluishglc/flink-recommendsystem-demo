@@ -41,7 +41,7 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.demo.entity
+  type-aliases-package: com.datafly.entity
   configuration:
     map-underscore-to-camel-case: true
 
